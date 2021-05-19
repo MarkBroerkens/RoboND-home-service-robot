@@ -1,0 +1,11 @@
+- git: {local-name: src/RoboND-home-service-robot, uri: 'https://github.com/markbroerkens/RoboND-home-service-robot.git', version: main}
+- git: {local-name: src/slam_gmapping, uri: 'https://github.com/ros-perception/slam_gmapping.git', version: melodic-devel}
+- git: {local-name: src/turtlebot, uri: 'https://github.com/turtlebot/turtlebot.git', version: kinetic}
+- git: {local-name: src/turtlebot_interactions, uri: 'https://github.com/turtlebot/turtlebot_interactions.git', version: indigo}
+- git: {local-name: src/turtlebot_simulator, uri: 'https://github.com/turtlebot/turtlebot_simulator.git', version: melodic}
+
+- setup-file:
+    local-name: /opt/ros/kinetic/setup.sh
+- other:
+    local-name: /opt/ros/kinetic/share/ros
+    
