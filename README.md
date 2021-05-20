@@ -104,6 +104,9 @@ $ source devel/setup.bash
 
 
 #### Step 5 Run the Simulation 
+* run test_slam.sh in order to explore the environment
+* save the map using rosrun map_server map_saver -f $CATKIN_WS/src/RoboND-home-service-robot/map/my_map
+
 ##### in Terminal 1
 ```sh
 $ source $CATKIN_WS/devel/setup.bash
