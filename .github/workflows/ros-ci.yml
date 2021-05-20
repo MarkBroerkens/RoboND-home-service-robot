@@ -1,0 +1,22 @@
+name: ROS CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build_docker:
+    runs-on: ubuntu-latest
+    container:
+       image: ubuntu:xenial    
+   
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ros-tooling/setup-ros@v0.1
+        with:
+          required-ros-distributions: kinetic
+      - uses: ros-tooling/action-ros-ci@v0.1
+        with:
+          package-name: pick_objects
+          target-ros1-distro: kinetic
+          vcs-repo-file-url: ""
