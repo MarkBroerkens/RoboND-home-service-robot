@@ -107,6 +107,28 @@ $ source devel/setup.bash
 * run test_slam.sh in order to explore the environment
 * save the map using rosrun map_server map_saver -f $CATKIN_WS/src/RoboND-home-service-robot/map/my_map
 
+```sh
+sudo apt-get install libignition-math2-dev protobuf-compiler
+cd $CATKIN_WS/src
+git clone https://github.com/udacity/pgm_map_creator.git
+cd $CATKIN_WS
+catkin_make
+cp $CATKIN_WS/src/RoboND-home-service-robot/world/myworld.world src/pgm_map_creator/world/myworld.world
+```
+at end of world file fill in (yust before the </world> tag)
+```xml
+<plugin filename="libcollision_map_creator.so" name="collision_map_creator"/>
+```
+```sh
+gzserver src/pgm_map_creator/world/myworld.world
+```
+
+```sh
+cd $CATKIN_WS
+source devel/setup.bash
+roslaunch pgm_map_creator request_publisher.launch
+```
+
 ##### in Terminal 1
 ```sh
 $ source $CATKIN_WS/devel/setup.bash
