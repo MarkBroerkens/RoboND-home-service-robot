@@ -28,25 +28,39 @@
 
 #include <move_base_msgs/MoveBaseAction.h>
 
-void goalCallback(const geometry_msgs::PoseStamped::ConstPtr& goal)
+geometry_msgs::PoseStamped goal_;
+bool showMarker_ = false;
+
+  
+  ros::Publisher marker_pub;
+  ros::Subscriber goal_sub;
+ // ros::Subscriber showMarker_sub;
+
+void updateMarker();
+/*
+void showMarkerCallback(const bool showMarker)
 {
-  ROS_WARN("goal x: [%f]", goal->pose.position.x);
+  ROS_INFO("show marker: %s ", showMarker ? "true" : "false");
+  showMarker_ =  showMarker;
+}
+*/
+
+void goalCallback(const geometry_msgs::PoseStamped& goal)
+{
+  ROS_INFO("current goal (x,y): %f, %f", goal.pose.position.x, goal.pose.position.y);
+  goal_ =  goal;
+  updateMarker();
 }
 
-int main( int argc, char** argv )
+void updateMarker()
 {
-  ros::init(argc, argv, "add_markers");
-  ros::NodeHandle n;
-  ros::Rate r(1);
-  ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
-  ros::Subscriber goal_sub = n.subscribe("/move_base/current_goal", 1000, goalCallback);
-
-  // Set our initial shape type to be a cube
-  uint32_t shape = visualization_msgs::Marker::SPHERE;
-
-  while (ros::ok())
-  {
-    visualization_msgs::Marker marker;
+    if (marker_pub.getNumSubscribers() < 1)
+    {
+      ROS_WARN_ONCE("Please create a subscriber to the marker");
+    }
+    else 
+    {
+          visualization_msgs::Marker marker;
     // Set the frame ID and timestamp.  See the TF tutorials for information on these.
     marker.header.frame_id = "/map";
     marker.header.stamp = ros::Time::now();
@@ -57,19 +71,13 @@ int main( int argc, char** argv )
     marker.id = 0;
 
     // Set the marker type.
-    marker.type = shape;
+    marker.type = visualization_msgs::Marker::SPHERE;;
 
     // Set the marker action.  Options are ADD, DELETE, and new in ROS Indigo: 3 (DELETEALL)
     marker.action = visualization_msgs::Marker::ADD;
 
     // Set the pose of the marker.  This is a full 6DOF pose relative to the frame/time specified in the header
-    marker.pose.position.x = 0;
-    marker.pose.position.y = 0;
-    marker.pose.position.z = 0;
-    marker.pose.orientation.x = 0.0;
-    marker.pose.orientation.y = 0.0;
-    marker.pose.orientation.z = 0.0;
-    marker.pose.orientation.w = 1.0;
+    marker.pose = goal_.pose;
 
     // Set the scale of the marker -- 1x1x1 here means 1m on a side
     marker.scale.x = 1.0;
@@ -83,20 +91,19 @@ int main( int argc, char** argv )
     marker.color.a = 1.0;
 
     marker.lifetime = ros::Duration();
-
-    // Publish the marker
-    while (marker_pub.getNumSubscribers() < 1)
-    {
-      if (!ros::ok())
-      {
-        return 0;
-      }
-      ROS_WARN_ONCE("Please create a subscriber to the marker");
-      sleep(1);
-    }
     marker_pub.publish(marker);
-
-    ros::spinOnce();
-    r.sleep();
+    
   }
+}
+
+
+int main( int argc, char** argv )
+{
+  ros::init(argc, argv, "add_markers");
+  ros::NodeHandle n;
+  marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
+  goal_sub = n.subscribe("/move_base/current_goal", 1000, goalCallback);
+ //showMarker_sub = n.subscribe("/showMarker", 1000, showMarkerCallback);
+
+  ros::spin();  
 }
