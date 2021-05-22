@@ -17,6 +17,6 @@ jobs:
           required-ros-distributions: kinetic
       - uses: ros-tooling/action-ros-ci@v0.1
         with:
-          package-name: pick_objects
+          package-name: pick_objects add_markers
           target-ros1-distro: kinetic
           vcs-repo-file-url: ""
