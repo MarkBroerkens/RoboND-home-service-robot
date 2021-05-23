@@ -26,7 +26,8 @@
 #include <ros/ros.h>
 #include <visualization_msgs/Marker.h>
 
-#include <move_base_msgs/MoveBaseAction.h>
+#include <std_msgs/Bool.h>
+#include <geometry_msgs/PoseStamped.h>
 
 geometry_msgs::PoseStamped goal_;
 bool showMarker_ = false;
@@ -34,16 +35,17 @@ bool showMarker_ = false;
   
   ros::Publisher marker_pub;
   ros::Subscriber goal_sub;
- // ros::Subscriber showMarker_sub;
+  ros::Subscriber showMarker_sub;
 
 void updateMarker();
-/*
-void showMarkerCallback(const bool showMarker)
+
+void showMarkerCallback(const std_msgs::Bool& showMarker)
 {
-  ROS_INFO("show marker: %s ", showMarker ? "true" : "false");
-  showMarker_ =  showMarker;
+  ROS_INFO("show marker: %s ", showMarker.data ? "true" : "false");
+  showMarker_ =  showMarker.data;
+  updateMarker();
 }
-*/
+
 
 void goalCallback(const geometry_msgs::PoseStamped& goal)
 {
@@ -70,27 +72,37 @@ void updateMarker()
     marker.ns = "add_markers";
     marker.id = 0;
 
-    // Set the marker type.
-    marker.type = visualization_msgs::Marker::SPHERE;;
-
+   
     // Set the marker action.  Options are ADD, DELETE, and new in ROS Indigo: 3 (DELETEALL)
-    marker.action = visualization_msgs::Marker::ADD;
+    if (showMarker_)
+    {
+      // Set the marker type.
+      marker.type = visualization_msgs::Marker::SPHERE;;
 
-    // Set the pose of the marker.  This is a full 6DOF pose relative to the frame/time specified in the header
-    marker.pose = goal_.pose;
+      marker.action = visualization_msgs::Marker::ADD;
+            // Set the pose of the marker.  This is a full 6DOF pose relative to the frame/time specified in the header
+      marker.pose = goal_.pose;
 
-    // Set the scale of the marker -- 1x1x1 here means 1m on a side
-    marker.scale.x = 1.0;
-    marker.scale.y = 1.0;
-    marker.scale.z = 1.0;
+      // Set the scale of the marker -- 1x1x1 here means 1m on a side
+      marker.scale.x = 1.0;
+      marker.scale.y = 1.0;
+      marker.scale.z = 1.0;
 
-    // Set the color -- be sure to set alpha to something non-zero!
-    marker.color.r = 0.0f;
-    marker.color.g = 1.0f;
-    marker.color.b = 0.0f;
-    marker.color.a = 1.0;
+      // Set the color -- be sure to set alpha to something non-zero!
+      marker.color.r = 0.0f;
+      marker.color.g = 1.0f;
+      marker.color.b = 0.0f;
+      marker.color.a = 1.0;
 
-    marker.lifetime = ros::Duration();
+      marker.lifetime = ros::Duration();
+    } 
+    else 
+    {
+      marker.action = visualization_msgs::Marker::DELETE;
+    }
+    
+
+
     marker_pub.publish(marker);
     
   }
@@ -103,7 +115,7 @@ int main( int argc, char** argv )
   ros::NodeHandle n;
   marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
   goal_sub = n.subscribe("/move_base/current_goal", 1000, goalCallback);
- //showMarker_sub = n.subscribe("/showMarker", 1000, showMarkerCallback);
+  showMarker_sub = n.subscribe("/showMarker", 1000, showMarkerCallback);
 
   ros::spin();  
 }
