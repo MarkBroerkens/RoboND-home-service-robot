@@ -115,7 +115,7 @@ int main( int argc, char** argv )
   ros::NodeHandle n;
   marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
   goal_sub = n.subscribe("/move_base/current_goal", 1000, goalCallback);
-  showMarker_sub = n.subscribe("/showMarker", 1000, showMarkerCallback);
+  showMarker_sub = n.subscribe("/show_marker", 1000, showMarkerCallback);
 
   ros::spin();  
 }
