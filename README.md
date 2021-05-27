@@ -25,8 +25,8 @@ Simulation of 2-wheeled robot with *differential drive* that applies gmapping fo
 │   ├── home-service-robot.rosinstall
 │   ├── LICENSE
 │   ├── maps                               # maps
-│   │   ├── myworld_slam_map.pgm           # maps created using gmapping slam
-│   │   └── myworld_slam_map.yaml
+│   │   ├── myworld_slam_map2.pgm          # maps created using gmapping slam
+│   │   └── myworld_slam_map2.yaml
 │   │   ├── myworld_map.pgm                # maps created using pgm_map_creator
 │   │   └── myworld_map.yaml
 │   ├── pick_objects                       # package pick_objects
@@ -139,8 +139,8 @@ The ```pick_objects.sh``` script assigns two goal poses to the robot consecutive
 ![Pick Objects](https://github.com/MarkBroerkens/RoboND-home-service-robot/blob/main/images/pick_objects.gif)
 
 
-## Add Marker
-The ```add_marker.sh``` script adds markers to the goal positions at constant times programmatically as the robot moves through the environment.
+## Add Markers
+The ```add_markers.sh``` script adds markers to the goal positions at constant times programmatically as the robot moves through the environment.
 
 ![Add Markers](https://github.com/MarkBroerkens/RoboND-home-service-robot/blob/main/images/add_markers.gif)
 
