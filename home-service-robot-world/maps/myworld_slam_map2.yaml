@@ -1,4 +1,4 @@
-image: /home/robond/catkin_ws2/src/RoboND-home-service-robot/maps/myworld_slam_map2.pgm
+image: myworld_slam_map2.pgm
 resolution: 0.050000
 origin: [-12.200000, -12.200000, 0.000000]
 negate: 0

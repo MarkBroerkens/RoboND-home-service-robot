@@ -17,34 +17,37 @@ Simulation of 2-wheeled robot with *differential drive* that applies gmapping fo
 # Directory Structure of catkin workspace src folder 
 ```
 ├── RoboND-home-service-robot
-│   ├── add_markers                        # package add_markers
+│   ├── add_markers                        # PACKAGE add_markers
 │   │   ├── CMakeLists.txt
 │   │   ├── package.xml
 │   │   └── src
 │   │       └── add_markers.cpp
 │   ├── home-service-robot.rosinstall
-│   ├── LICENSE
-│   ├── maps                               # maps
-│   │   ├── myworld_slam_map2.pgm          # maps created using gmapping slam
-│   │   └── myworld_slam_map2.yaml
-│   │   ├── myworld_map.pgm                # maps created using pgm_map_creator
-│   │   └── myworld_map.yaml
-│   ├── pick_objects                       # package pick_objects
+|   ├── home-service-robot-world           # PACKAGE home-service-robot-world
+│   │   ├── CMakeLists.txt
+│   │   ├── package.xml
+│   │   ├── maps                           # maps
+│   │   │   ├── myworld_slam_map2.pgm      # maps created using gmapping slam
+│   │   │   └── myworld_slam_map2.yaml
+│   │   │   ├── myworld_map.pgm            # maps created using pgm_map_creator
+│   │   │   └── myworld_map.yaml
+│   │   ├── rvizConfig                     # rviz config with marker
+│   │   │   └── navigation.rviz
+│   │   └── worlds                         # gazebo worlds
+│   │       └── myworld.world
+│   ├── pick_objects                       # PACKAGE pick_objects
 │   │   ├── CMakeLists.txt
 │   │   ├── package.xml
 │   │   └── src
 │   │       └── pick_objects.cpp
+│   ├── LICENSE
 │   ├── README.md
-│   ├── rvizConfig                         # rviz config with marker
-│   │   └── navigation.rviz
 │   ├── scripts                            # shell scripts
 │   │   ├── add_markers.sh
 │   │   ├── home_service.sh
 │   │   ├── pick_objects.sh
 │   │   ├── test_navigation.sh
 │   │   └── test_slam.sh
-│   └── worlds                             # gazebo worlds
-│       └── myworld.world
 ├── slam_gmapping
 │   │  ..
 ├── turtlebot
